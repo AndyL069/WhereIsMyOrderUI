@@ -38,7 +38,7 @@ if(process.env.NODE_ENV === 'development') {
   }
   
   if(process.env.NODE_ENV === 'production') {
-    baseUrl = 'https://whereismyorder.azurewebsites.net'
+    baseUrl = 'https://whereismyorderapi.azurewebsites.net'
   }
 
 const Home = () => {
