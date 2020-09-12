@@ -31,6 +31,15 @@ interface Order {
 }
 
 let dt: DataTable | null;
+let baseUrl: string;
+
+if(process.env.NODE_ENV === 'development') {
+    baseUrl = ''
+  }
+  
+  if(process.env.NODE_ENV === 'production') {
+    baseUrl = 'https://whereismyorder.azurewebsites.net'
+  }
 
 const Home = () => {
     const {
@@ -42,7 +51,7 @@ const Home = () => {
     const [selectedOrders, setSelectedOrders] = useState<Order[]>([]);
 
     useEffect(() => {
-        fetch(`/api/GetOrdersForUser/${user.name}`)
+        fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
         .then(res => res.json())
         .then(setOrders)
         .catch(console.error);
@@ -57,7 +66,7 @@ const Home = () => {
     const [orderId, setOrderId] = useState<number>(0);
 
     const getOrders = async() => {
-        await fetch(`/api/GetOrdersForUser/${user.name}`)
+        await fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
         .then(res => res.json())
         .then(setOrders)
         .catch(console.error);
@@ -71,7 +80,7 @@ const Home = () => {
     };
 
     const createOrder = async (newOrder: Order) => {
-        await fetch(`/api/CreateOrder`, {
+        await fetch(`${baseUrl}/api/CreateOrder`, {
             method: 'POST',
             body: JSON.stringify({ newOrder }),
             headers: { 'Content-Type': 'application/json' }
@@ -79,7 +88,7 @@ const Home = () => {
     };
 
     const updateOrder = async (newOrder: Order) => {
-        await fetch(`/api/UpdateOrder`, {
+        await fetch(`${baseUrl}/api/UpdateOrder`, {
             method: 'PUT',
             body: JSON.stringify({ newOrder }),
             headers: { 'Content-Type': 'application/json' }
@@ -87,7 +96,7 @@ const Home = () => {
     };
 
     const deleteOrder = async (orderId: number) => {
-        await fetch(`/api/DeleteOrder/${orderId}`, {
+        await fetch(`${baseUrl}/api/DeleteOrder/${orderId}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         }).catch(err => console.log(err));
