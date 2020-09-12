@@ -42,7 +42,10 @@ const Home = () => {
     const [selectedOrders, setSelectedOrders] = useState<Order[]>([]);
 
     useEffect(() => {
-        getOrders();
+        fetch(`/api/GetOrdersForUser/${user.name}`)
+        .then(res => res.json())
+        .then(setOrders)
+        .catch(console.error);
     }, [user.name]);
 
     const [shippingCompany, setShippingCompany] = useState<string>("DHL");
