@@ -96,7 +96,7 @@ const Home = () => {
     };
 
     const deleteOrder = async (orderId: number) => {
-        await fetch(`${baseUrl}/api/DeleteOrder/${orderId}`, {
+        await fetch(`${baseUrl}/api/DeleteOrder?=${orderId}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         }).catch(err => console.log(err));
