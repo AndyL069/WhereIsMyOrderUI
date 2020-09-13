@@ -66,12 +66,14 @@ const Home = () => {
     } = useAuth0();
 
     const [orders, setOrders] = useState<Order[]>([]);
+    const [ordersLoading, setOrdersLoading] = useState(true);
     const [selectedOrders, setSelectedOrders] = useState<Order[]>([]);
 
     useEffect(() => {
         fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
         .then(res => res.json())
         .then(setOrders)
+        .then(() => setOrdersLoading(false))
         .catch(console.error);
     }, [user.name]);
 
@@ -316,7 +318,7 @@ const Home = () => {
                     <>
                         <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
                         <div className="datatable-responsive">
-                        { orders.length === 0 ? (<MyLoader></MyLoader>) : (
+                        { ordersLoading ? (<MyLoader></MyLoader>) : (
                             <DataTable ref={(el) => dt = el} 
                                 value={orders} 
                                 selection={selectedOrders} 
