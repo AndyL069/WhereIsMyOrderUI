@@ -70,7 +70,7 @@ const Home = () => {
         fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
         .then(res => res.json())
         .then(setOrders)
-        // .then(() => setOrdersLoading(false))
+        .then(() => setOrdersLoading(false))
         .catch(console.error);
     }, [user.name]);
 
