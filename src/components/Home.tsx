@@ -7,6 +7,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Toolbar } from 'primereact/toolbar';
+import { Toast } from 'primereact/toast';
 import ContentLoader from 'react-content-loader'
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -94,6 +95,7 @@ interface Order {
 }
 
 let dt: DataTable | null;
+let toast: Toast | null;
 let baseUrl: string;
 
 if(process.env.NODE_ENV === 'development') {
@@ -150,6 +152,7 @@ const Home = () => {
             body: JSON.stringify({ newOrder }),
             headers: { 'Content-Type': 'application/json' }
         }).catch(err => console.log(err));
+        toast?.show({ severity: 'success', summary: 'Successful', detail: 'Order Created', life: 3000 });
     };
 
     const updateOrder = async (newOrder: Order) => {
@@ -158,15 +161,48 @@ const Home = () => {
             body: JSON.stringify({ newOrder }),
             headers: { 'Content-Type': 'application/json' }
         }).catch(err => console.log(err));
+        toast?.show({ severity: 'success', summary: 'Successful', detail: 'Order Updated', life: 3000 });
     };
 
-    const deleteOrder = async (orderId: number) => {
-        await fetch(`${baseUrl}/api/DeleteOrder?orderId=${orderId}`, {
+    const [deleteOrderModal, setDeleteOrderModal] = useState(false);
+    const deleteOrderToggle = () => {
+        setDeleteOrderModal(!deleteOrderModal);
+    }
+
+    const [deleteSelectedOrdersModal, setDeleteSelectedOrdersModal] = useState(false);
+    const deleteSelectedOrdersToggle = () => {
+        setDeleteSelectedOrdersModal(!deleteSelectedOrdersModal);
+    }
+
+    const confirmDeleteSingleProduct = (orderId: number) => {
+        setOrderId(orderId);
+        deleteOrderToggle();
+    }
+
+    const confirmDeleteSelectedProducts = () => {
+        deleteSelectedOrdersToggle();
+    }
+
+    const deleteOrder = async () => {
+        await deleteOrderRequest(orderId);
+        await getOrders();
+        toast?.show({ severity: 'success', summary: 'Successful', detail: 'Order Deleted', life: 3000 });
+    };
+
+    const deleteOrderRequest = async (id: number) => {
+        await fetch(`${baseUrl}/api/DeleteOrder?orderId=${id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         }).catch(err => console.log(err));
-        await getOrders();
     };
+
+    const deleteSelectedOrders = async () => {
+        let orderCount = selectedOrders.length;
+        let filteredOrders = orders.filter(val => !selectedOrders.includes(val));
+        setOrders(filteredOrders);
+        selectedOrders.forEach(filteredOrder => deleteOrderRequest(filteredOrder.id));
+        toast?.show({ severity: 'success', summary: 'Successful', detail: `${orderCount} Order(s) Deleted`, life: 3000 });
+    }
 
     const [newOrderModal, setNewOrderModal] = useState(false);
     const newOrderToggle = () => setNewOrderModal(!newOrderModal);
@@ -287,7 +323,7 @@ const Home = () => {
         return (
             <>
                 <Button className="rounded-circle" color="warning" onClick={() => toggleUpdateOrder(rowData)}><b><FontAwesomeIcon icon={faPen} /></b></Button>
-                <Button className="rounded-circle ml-1" color="danger" onClick={() => deleteOrder(rowData.id)} ><b><FontAwesomeIcon icon={faTrashAlt} /></b></Button>
+                <Button className="rounded-circle ml-1" color="danger" onClick={() => confirmDeleteSingleProduct(rowData.id)} ><b><FontAwesomeIcon icon={faTrashAlt} /></b></Button>
             </>
         );
     }
@@ -296,7 +332,7 @@ const Home = () => {
         return (
             <>
                 <Button color="primary" onClick={newOrderToggle}><b><FontAwesomeIcon icon={faPlus} /> NEW</b></Button>
-                <Button color="danger" className="ml-1" disabled={!selectedOrders || !selectedOrders.length} onClick={deleteSelectedProducts}><b><FontAwesomeIcon icon={faTrashAlt} /> DELETE</b></Button>
+                <Button color="danger" className="ml-1" disabled={!selectedOrders || !selectedOrders.length} onClick={() => confirmDeleteSelectedProducts()}><b><FontAwesomeIcon icon={faTrashAlt} /> DELETE</b></Button>
             </>
         )
     }
@@ -333,12 +369,6 @@ const Home = () => {
         </div>
     );
 
-    const deleteSelectedProducts = () => {
-        let filteredOrders = orders.filter(val => !selectedOrders.includes(val));
-        setOrders(filteredOrders);
-        selectedOrders.forEach(filteredOrder => deleteOrder(filteredOrder.id));
-    }
-
     const toggleUpdateOrder = (rowData: Order) => {
         setShippingCompany(rowData.company);
         setShippingStatus(rowData.status);
@@ -357,6 +387,29 @@ const Home = () => {
 
     return (
         <>
+            <Modal isOpen={deleteSelectedOrdersModal} 
+                toggle={deleteSelectedOrdersToggle}>
+                <ModalHeader toggle={deleteSelectedOrdersToggle}>Delete Selected Orders</ModalHeader>
+                <ModalBody>
+                    This will delete all selected orders. Are you sure?
+                </ModalBody>
+                <ModalFooter>
+                <Button color="danger" onClick={() => {deleteSelectedOrders(); deleteSelectedOrdersToggle();}}><b>DELETE</b></Button>{' '}
+                <Button color="secondary" onClick={deleteSelectedOrdersToggle}><b>CANCEL</b></Button>
+                </ModalFooter>
+            </Modal>
+            <Modal isOpen={deleteOrderModal} 
+                toggle={deleteOrderToggle}>
+                <ModalHeader toggle={deleteOrderToggle}>Delete Order</ModalHeader>
+                <ModalBody>
+                    This order will be deleted. Are you sure?
+                </ModalBody>
+                <ModalFooter>
+                <Button color="danger" onClick={() => {deleteOrder(); deleteOrderToggle();}}><b>DELETE</b></Button>{' '}
+                <Button color="secondary" onClick={deleteOrderToggle}><b>CANCEL</b></Button>
+                </ModalFooter>
+            </Modal>
+            <Toast ref={(el) => toast = el} />
             <Container>
                 {!isAuthenticated && (<Hero></Hero>)}
                 {isAuthenticated && (
