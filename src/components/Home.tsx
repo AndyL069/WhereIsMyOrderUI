@@ -7,6 +7,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Toolbar } from 'primereact/toolbar';
+import ContentLoader, { Facebook } from 'react-content-loader'
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -17,6 +18,23 @@ import hermesLogo from '../hermeslogo.jpg';
 import glsLogo from '../glslogo.jpg';
 import upsLogo from '../upslogo.png';
 import dpdLogo from '../dpdlogo.jpg';
+
+const MyLoader = (props: any) => (
+    <ContentLoader 
+    speed={2}
+    width={1100}
+    height={460}
+    viewBox="0 0 1100 460"
+    backgroundColor="#f3f3f3"
+    foregroundColor="#ecebeb"
+    {...props}
+  >
+    <circle cx="31" cy="31" r="15" /> 
+    <rect x="58" y="18" rx="2" ry="2" width="1100" height="10" /> 
+    <rect x="58" y="34" rx="2" ry="2" width="1100" height="10" />
+    <rect x="0" y="60" rx="2" ry="2" width="1100" height="400" />
+  </ContentLoader>
+  )
 
 interface Order {
     id: number,
@@ -53,7 +71,7 @@ const Home = () => {
     useEffect(() => {
         fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
         .then(res => res.json())
-        .then(setOrders)
+        // .then(setOrders)
         .catch(console.error);
     }, [user.name]);
 
@@ -298,24 +316,27 @@ const Home = () => {
                     <>
                         <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
                         <div className="datatable-responsive">
-                        <DataTable ref={(el) => dt = el} 
-                            value={orders} 
-                            selection={selectedOrders} 
-                            onSelectionChange={(e) => setSelectedOrders(e.value)}
-                            className="p-datatable-responsive"
-                            dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25]}
-                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} orders"
-                            header={header}
-                            globalFilter={globalFilter}>
-                            <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                            <Column field="title" header="Title" sortable body={descriptionColumnTemplate}></Column>
-                            <Column field="company" header="Company" sortable body={shippingCompanyTemplate}></Column>
-                            <Column field="arrival" header="Arrival" sortable body={arrivalColumnTemplate}></Column>
-                            <Column field="status" header="Status" body={statusBodyTemplate} sortable></Column>
-                            <Column field="link" header="Tracking Link" body={trackingLinkTemplate} ></Column>
-                            <Column field="edit" body={actionsTemplate}></Column>
-                        </DataTable>
+                        { orders.length == 0 ? (<MyLoader></MyLoader>) : (
+                            <DataTable ref={(el) => dt = el} 
+                                value={orders} 
+                                selection={selectedOrders} 
+                                onSelectionChange={(e) => setSelectedOrders(e.value)}
+                                className="p-datatable-responsive"
+                                dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25]}
+                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} orders"
+                                header={header}
+                                globalFilter={globalFilter}>
+                                <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+                                <Column field="title" header="Title" sortable body={descriptionColumnTemplate}></Column>
+                                <Column field="company" header="Company" sortable body={shippingCompanyTemplate}></Column>
+                                <Column field="arrival" header="Arrival" sortable body={arrivalColumnTemplate}></Column>
+                                <Column field="status" header="Status" body={statusBodyTemplate} sortable></Column>
+                                <Column field="link" header="Tracking Link" body={trackingLinkTemplate} ></Column>
+                                <Column field="edit" body={actionsTemplate}></Column>
+                            </DataTable>
+                            )
+                        }
                         </div>
                     </>
                 )}
