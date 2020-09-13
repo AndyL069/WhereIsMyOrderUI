@@ -22,17 +22,14 @@ import dpdLogo from '../dpdlogo.jpg';
 const MyLoader = (props: any) => (
     <ContentLoader 
     speed={2}
-    width={1100}
-    height={460}
-    viewBox="0 0 1100 460"
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb"
     {...props}
   >
     <circle cx="31" cy="31" r="15" /> 
-    <rect x="58" y="18" rx="2" ry="2" width="1100" height="10" /> 
-    <rect x="58" y="34" rx="2" ry="2" width="1100" height="10" />
-    <rect x="0" y="60" rx="2" ry="2" width="1100" height="400" />
+    <rect x="58" y="18" rx="2" ry="2" width="100%" height="10" /> 
+    <rect x="58" y="34" rx="2" ry="2" width="100%" height="10" />
+    <rect x="0" y="60" rx="2" ry="2" width="100%" height="400" />
   </ContentLoader>
   )
 
@@ -73,7 +70,7 @@ const Home = () => {
         fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
         .then(res => res.json())
         .then(setOrders)
-        .then(() => setOrdersLoading(false))
+        // .then(() => setOrdersLoading(false))
         .catch(console.error);
     }, [user.name]);
 
