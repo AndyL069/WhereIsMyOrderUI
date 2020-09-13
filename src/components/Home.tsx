@@ -7,7 +7,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Toolbar } from 'primereact/toolbar';
-import ContentLoader, { Facebook } from 'react-content-loader'
+import ContentLoader from 'react-content-loader'
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -316,7 +316,7 @@ const Home = () => {
                     <>
                         <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
                         <div className="datatable-responsive">
-                        { orders.length == 0 ? (<MyLoader></MyLoader>) : (
+                        { orders.length === 0 ? (<MyLoader></MyLoader>) : (
                             <DataTable ref={(el) => dt = el} 
                                 value={orders} 
                                 selection={selectedOrders} 
