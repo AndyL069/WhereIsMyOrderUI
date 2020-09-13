@@ -297,7 +297,12 @@ const Home = () => {
                 {isAuthenticated && (
                     <>
                         <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
-                        <DataTable ref={(el) => dt = el} value={orders} selection={selectedOrders} onSelectionChange={(e) => setSelectedOrders(e.value)}
+                        <div className="datatable-responsive">
+                        <DataTable ref={(el) => dt = el} 
+                            value={orders} 
+                            selection={selectedOrders} 
+                            onSelectionChange={(e) => setSelectedOrders(e.value)}
+                            className="p-datatable-responsive"
                             dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25]}
                             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} orders"
@@ -311,6 +316,7 @@ const Home = () => {
                             <Column field="link" header="Tracking Link" body={trackingLinkTemplate} ></Column>
                             <Column field="edit" body={actionsTemplate}></Column>
                         </DataTable>
+                        </div>
                     </>
                 )}
             </Container>
