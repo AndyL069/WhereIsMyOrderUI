@@ -71,7 +71,7 @@ const Home = () => {
     useEffect(() => {
         fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
         .then(res => res.json())
-        // .then(setOrders)
+        .then(setOrders)
         .catch(console.error);
     }, [user.name]);
 
