@@ -420,7 +420,9 @@ const Home = () => {
                         <div className="datatable-responsive">
                         { ordersLoading ? (<><MyLoader/><MyLoader/><MyLoader/></>) : (
                             <DataTable ref={(el) => dt = el} 
-                                value={orders} 
+                                value={orders}
+                                sortField="arrival"
+                                sortOrder={-1} 
                                 selection={selectedOrders} 
                                 onSelectionChange={(e) => setSelectedOrders(e.value)}
                                 className="p-datatable-responsive"
