@@ -138,7 +138,7 @@ const Home = () => {
         .then(setOrders)
         .catch(console.error);
         setShippingCompany("DHL");
-        setShippingStatus("SHIPPING");
+        setShippingStatus("OPEN");
         setOrderTitle("");
         setOrderZipCode("");
         setOrderTrackingNumber("");
@@ -352,6 +352,8 @@ const Home = () => {
                 break;
             case "SHIPPED": badgeColor = "secondary";
                 break;
+            case "OPEN": badgeColor = "info";
+                break;
         }
 
         return (<Badge color={badgeColor}>{rowData.status}</Badge>);
@@ -369,7 +371,6 @@ const Home = () => {
         </div>
     );
 
-    //test
     const toggleUpdateOrder = (rowData: Order) => {
         setShippingCompany(rowData.company);
         setShippingStatus(rowData.status);
@@ -526,6 +527,7 @@ const Home = () => {
                                 id="orderTrackingNumberSelect"
                                 value={shippingStatus}
                                 onChange={(event) => setShippingStatus(event.currentTarget.value)}>
+                                <option>OPEN</option>
                                 <option>SHIPPING</option>
                                 <option>SHIPPED</option>
                             </Input>
