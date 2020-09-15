@@ -71,7 +71,6 @@ const Home = () => {
     const [orderId, setOrderId] = useState<number>(0);
 
     const getOrders = async () => {
-        const token = await getAccessTokenSilently();
         await fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
             .then(res => res.json())
             .then(setOrders)
