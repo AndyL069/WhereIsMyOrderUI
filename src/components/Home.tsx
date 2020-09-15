@@ -131,12 +131,19 @@ const Home = () => {
         }).catch(err => console.log(err));
     };
 
+    const deleteOrdersRequest = async (ids: string) => {
+        await fetch(`${baseUrl}/api/DeleteOrders?orderIds=${ids}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        }).catch(err => console.log(err));
+    };
+
     const deleteSelectedOrders = async () => {
         deleteSelectedOrdersToggle();
         let orderCount = selectedOrders.length;
         let filteredOrders = orders.filter(val => !selectedOrders.includes(val));
-        setOrders(filteredOrders);
-        selectedOrders.forEach(filteredOrder => deleteOrderRequest(filteredOrder.id));
+        setOrders(filteredOrders);   
+        deleteOrdersRequest(selectedOrders.map(item => {return item.id}).toString());
         toast?.show({ severity: 'success', summary: 'Successful', detail: `${orderCount} Order(s) Deleted`, life: 3000 });
     }
 
