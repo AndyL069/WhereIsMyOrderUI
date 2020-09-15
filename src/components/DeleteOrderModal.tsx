@@ -13,7 +13,7 @@ function DeleteOrderModal (props: { children?:any
             This will delete all selected orders. Are you sure?
         </ModalBody>
         <ModalFooter>
-        <Button color="danger" onClick={() => props.deleteOrder()}><b>DELETE</b></Button>{' '}
+        <Button color="danger" onClick={() => props.deleteOrder()}><b>DELETE</b></Button>
         <Button color="secondary" onClick={props.deleteOrderToggle}><b>CANCEL</b></Button>
         </ModalFooter>
     </Modal>);
