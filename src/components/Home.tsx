@@ -42,7 +42,8 @@ if (process.env.NODE_ENV === 'production') {
 const Home = () => {
     const {
         user,
-        isAuthenticated
+        isAuthenticated,
+        getAccessTokenSilently
     } = useAuth0();
 
     const [orders, setOrders] = useState<Order[]>([]);
@@ -79,24 +80,6 @@ const Home = () => {
         setOrderId(0);
     };
 
-    const createOrder = async (newOrder: Order) => {
-        await fetch(`${baseUrl}/api/CreateOrder`, {
-            method: 'POST',
-            body: JSON.stringify({ newOrder }),
-            headers: { 'Content-Type': 'application/json' }
-        }).catch(err => console.log(err));
-        toast?.show({ severity: 'success', summary: 'Successful', detail: 'Order Created', life: 3000 });
-    };
-
-    const updateOrder = async (newOrder: Order) => {
-        await fetch(`${baseUrl}/api/UpdateOrder`, {
-            method: 'PUT',
-            body: JSON.stringify({ newOrder }),
-            headers: { 'Content-Type': 'application/json' }
-        }).catch(err => console.log(err));
-        toast?.show({ severity: 'success', summary: 'Successful', detail: 'Order Updated', life: 3000 });
-    };
-
     const [deleteOrderModal, setDeleteOrderModal] = useState(false);
     const deleteOrderToggle = () => {
         setDeleteOrderModal(!deleteOrderModal);
@@ -116,35 +99,74 @@ const Home = () => {
         deleteSelectedOrdersToggle();
     }
 
+    //////////////////////////////// Requests
+    const createOrderRequest = async (newOrder: Order) => {
+        const token = await getAccessTokenSilently();
+        await fetch(`${baseUrl}/api/CreateOrder`, {
+            method: 'POST',
+            body: JSON.stringify({ newOrder }),
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }).then(res => res.status === 200 ? toast?.show({ severity: 'success', summary: 'Successful', detail: 'Order Created', life: 3000 }) :
+            toast?.show({ severity: 'error', summary: 'Error', detail: 'Create failed', life: 3000 }))
+            .catch(err => toast?.show({ severity: 'error', summary: 'Error', detail: err, life: 3000 }));
+    };
+
+    const updateOrderRequest = async (newOrder: Order) => {
+        const token = await getAccessTokenSilently();
+        await fetch(`${baseUrl}/api/UpdateOrder`, {
+            method: 'PUT',
+            body: JSON.stringify({ newOrder }),
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }).then(res => res.status === 200 ? toast?.show({ severity: 'success', summary: 'Successful', detail: 'Order Updated', life: 3000 }) :
+            toast?.show({ severity: 'error', summary: 'Error', detail: 'Update failed', life: 3000 }))
+            .catch(err => console.log(err));
+    };
+
+    const deleteOrderRequest = async (id: number) => {
+        const token = await getAccessTokenSilently();
+        await fetch(`${baseUrl}/api/DeleteOrder?orderId=${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }).then(res => res.status === 200 ? toast?.show({ severity: 'success', summary: 'Successful', detail: 'Order Deleted', life: 3000 }) :
+            toast?.show({ severity: 'error', summary: 'Error', detail: 'Delete failed', life: 3000 }))
+            .catch(err => toast?.show({ severity: 'error', summary: 'Error', detail: err, life: 3000 }));
+    };
+
+    const deleteOrdersRequest = async (ids: string) => {
+        const token = await getAccessTokenSilently();
+        let orderCount = selectedOrders.length;
+        await fetch(`${baseUrl}/api/DeleteOrders?orderIds=${ids}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }).then(res => res.status === 200 ? toast?.show({ severity: 'success', summary: 'Successful', detail: `${orderCount} Order(s) Deleted`, life: 3000 }) :
+            toast?.show({ severity: 'error', summary: 'Error', detail: 'Delete failed', life: 3000 }))
+            .catch(err => toast?.show({ severity: 'error', summary: 'Error', detail: err, life: 3000 }));
+    };
+
     const deleteOrder = async () => {
         deleteOrderToggle();
         var response = await deleteOrderRequest(orderId);
         await getOrders();
-        toast?.show({ severity: 'success', summary: 'Successful', detail: 'Order Deleted', life: 3000 });
-        return(response);
-    };
-
-    const deleteOrderRequest = async (id: number) => {
-        await fetch(`${baseUrl}/api/DeleteOrder?orderId=${id}`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' }
-        }).catch(err => console.log(err));
-    };
-
-    const deleteOrdersRequest = async (ids: string) => {
-        await fetch(`${baseUrl}/api/DeleteOrders?orderIds=${ids}`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' }
-        }).catch(err => console.log(err));
+        return (response);
     };
 
     const deleteSelectedOrders = async () => {
         deleteSelectedOrdersToggle();
-        let orderCount = selectedOrders.length;
         let filteredOrders = orders.filter(val => !selectedOrders.includes(val));
-        setOrders(filteredOrders);   
-        deleteOrdersRequest(selectedOrders.map(item => {return item.id}).toString());
-        toast?.show({ severity: 'success', summary: 'Successful', detail: `${orderCount} Order(s) Deleted`, life: 3000 });
+        setOrders(filteredOrders);
+        deleteOrdersRequest(selectedOrders.map(item => { return item.id }).toString());
     }
 
     const [newOrderModal, setNewOrderModal] = useState(false);
@@ -183,7 +205,7 @@ const Home = () => {
             zipCode: orderZipCode,
             trackingNumber: orderTrackingNumber
         };
-        await createOrder(newOrder);
+        await createOrderRequest(newOrder);
         await getOrders();
     }
 
@@ -219,7 +241,7 @@ const Home = () => {
             trackingNumber: orderTrackingNumber
         };
 
-        await updateOrder(updatedOrder);
+        await updateOrderRequest(updatedOrder);
         await getOrders();
     }
 
