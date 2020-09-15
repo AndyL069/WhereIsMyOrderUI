@@ -51,11 +51,22 @@ const Home = () => {
     const [selectedOrders, setSelectedOrders] = useState<Order[]>([]);
 
     useEffect(() => {
-        fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
-            .then(res => res.json())
-            .then(setOrders)
-            .then(() => setOrdersLoading(false))
-            .catch(console.error);
+        async function getUsers() {
+            const token = await getAccessTokenSilently();
+            fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(res => res.json())
+                .then(setOrders)
+                .then(() => setOrdersLoading(false))
+                .catch(console.error);
+        }
+        getUsers();
+
     }, [user.name]);
 
     const [shippingCompany, setShippingCompany] = useState<string>("DHL");
@@ -67,7 +78,14 @@ const Home = () => {
     const [orderId, setOrderId] = useState<number>(0);
 
     const getOrders = async () => {
-        await fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
+        const token = await getAccessTokenSilently();
+        await fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(res => res.json())
             .then(setOrders)
             .catch(console.error);
