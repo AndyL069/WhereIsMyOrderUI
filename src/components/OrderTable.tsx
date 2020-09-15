@@ -5,11 +5,11 @@ import { InputText } from "primereact/inputtext";
 import { DataTable } from "primereact/datatable";
 import React, { useState } from "react";
 import { Badge, Label } from "reactstrap";
-import dhlLogo from '../dhllogo.png';
-import hermesLogo from '../hermeslogo.jpg';
-import glsLogo from '../glslogo.jpg';
-import upsLogo from '../upslogo.png';
-import dpdLogo from '../dpdlogo.jpg';
+import dhlLogo from '../assets/dhllogo.png';
+import hermesLogo from '../assets/hermeslogo.jpg';
+import glsLogo from '../assets/glslogo.jpg';
+import upsLogo from '../assets/upslogo.png';
+import dpdLogo from '../assets/dpdlogo.jpg';
 import { Order } from "./Home";
 import MyLoader from "./MyLoader";
 
