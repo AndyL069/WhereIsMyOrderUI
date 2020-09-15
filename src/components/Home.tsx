@@ -52,14 +52,7 @@ const Home = () => {
 
     useEffect(() => {
         async function getUsers() {
-            const token = await getAccessTokenSilently();
-            fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                }
-            })
+            fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
                 .then(res => res.json())
                 .then(setOrders)
                 .then(() => setOrdersLoading(false))
@@ -67,7 +60,7 @@ const Home = () => {
         }
         getUsers();
 
-    }, [user.name,getAccessTokenSilently]);
+    }, [user.name]);
 
     const [shippingCompany, setShippingCompany] = useState<string>("DHL");
     const [shippingStatus, setShippingStatus] = useState<string>("SHIPPING");
@@ -79,13 +72,7 @@ const Home = () => {
 
     const getOrders = async () => {
         const token = await getAccessTokenSilently();
-        await fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
-            }
-        })
+        await fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
             .then(res => res.json())
             .then(setOrders)
             .catch(console.error);
