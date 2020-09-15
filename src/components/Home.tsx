@@ -111,7 +111,7 @@ const Home = () => {
             }
         }).then(res => res.status === 200 ? toast?.show({ severity: 'success', summary: 'Successful', detail: 'Order Created', life: 3000 }) :
             toast?.show({ severity: 'error', summary: 'Error', detail: 'Create failed', life: 3000 }))
-            .catch(err => toast?.show({ severity: 'error', summary: 'Error', detail: err, life: 3000 }));
+            .catch(err => console.log(err));
     };
 
     const updateOrderRequest = async (newOrder: Order) => {
@@ -138,7 +138,7 @@ const Home = () => {
             }
         }).then(res => res.status === 200 ? toast?.show({ severity: 'success', summary: 'Successful', detail: 'Order Deleted', life: 3000 }) :
             toast?.show({ severity: 'error', summary: 'Error', detail: 'Delete failed', life: 3000 }))
-            .catch(err => toast?.show({ severity: 'error', summary: 'Error', detail: err, life: 3000 }));
+            .catch(err => console.log(err));
     };
 
     const deleteOrdersRequest = async (ids: string) => {
@@ -152,7 +152,7 @@ const Home = () => {
             }
         }).then(res => res.status === 200 ? toast?.show({ severity: 'success', summary: 'Successful', detail: `${orderCount} Order(s) Deleted`, life: 3000 }) :
             toast?.show({ severity: 'error', summary: 'Error', detail: 'Delete failed', life: 3000 }))
-            .catch(err => toast?.show({ severity: 'error', summary: 'Error', detail: err, life: 3000 }));
+            .catch(err => console.log(err));
     };
 
     const deleteOrder = async () => {
