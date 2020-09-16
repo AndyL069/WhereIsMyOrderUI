@@ -6,7 +6,6 @@ import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import moment from 'moment';
-import Hero from './Hero';
 import UpdateOrderModal from './UpdateOrderModal';
 import DeleteSelectedOrdersModal from './DeleteSelectedOrdersModal';
 import DeleteOrderModal from './DeleteOrderModal';
@@ -42,7 +41,6 @@ if (process.env.NODE_ENV === 'production') {
 const Home = () => {
     const {
         user,
-        isAuthenticated,
         getAccessTokenSilently
     } = useAuth0();
 
@@ -52,14 +50,20 @@ const Home = () => {
 
     useEffect(() => {
         async function getUsers() {
-            fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
+            const token = await getAccessTokenSilently();
+            await fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            })
                 .then(res => res.json())
                 .then(setOrders)
                 .then(() => setOrdersLoading(false))
                 .catch(console.error);
         }
         getUsers();
-
     }, [user.name]);
 
     const [shippingCompany, setShippingCompany] = useState<string>("DHL");
@@ -71,7 +75,14 @@ const Home = () => {
     const [orderId, setOrderId] = useState<number>(0);
 
     const getOrders = async () => {
-        await fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`)
+        const token = await getAccessTokenSilently();
+        await fetch(`${baseUrl}/api/GetOrdersForUser?userId=${user.name}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(res => res.json())
             .then(setOrders)
             .catch(console.error);
@@ -83,25 +94,6 @@ const Home = () => {
         setOrderArrivalDate("");
         setOrderId(0);
     };
-
-    const [deleteOrderModal, setDeleteOrderModal] = useState(false);
-    const deleteOrderToggle = () => {
-        setDeleteOrderModal(!deleteOrderModal);
-    }
-
-    const [deleteSelectedOrdersModal, setDeleteSelectedOrdersModal] = useState(false);
-    const deleteSelectedOrdersToggle = () => {
-        setDeleteSelectedOrdersModal(!deleteSelectedOrdersModal);
-    }
-
-    const confirmDeleteSingleProduct = (orderId: number) => {
-        setOrderId(orderId);
-        deleteOrderToggle();
-    }
-
-    const confirmDeleteSelectedProducts = () => {
-        deleteSelectedOrdersToggle();
-    }
 
     //////////////////////////////// Requests
     const createOrderRequest = async (newOrder: Order) => {
@@ -171,6 +163,25 @@ const Home = () => {
         let filteredOrders = orders.filter(val => !selectedOrders.includes(val));
         setOrders(filteredOrders);
         deleteOrdersRequest(selectedOrders.map(item => { return item.id }).toString());
+    }
+
+    const [deleteOrderModal, setDeleteOrderModal] = useState(false);
+    const deleteOrderToggle = () => {
+        setDeleteOrderModal(!deleteOrderModal);
+    }
+
+    const [deleteSelectedOrdersModal, setDeleteSelectedOrdersModal] = useState(false);
+    const deleteSelectedOrdersToggle = () => {
+        setDeleteSelectedOrdersModal(!deleteSelectedOrdersModal);
+    }
+
+    const confirmDeleteSingleProduct = (orderId: number) => {
+        setOrderId(orderId);
+        deleteOrderToggle();
+    }
+
+    const confirmDeleteSelectedProducts = () => {
+        deleteSelectedOrdersToggle();
     }
 
     const [newOrderModal, setNewOrderModal] = useState(false);
@@ -322,19 +333,16 @@ const Home = () => {
             </DeleteOrderModal>
             <Toast ref={(el) => toast = el} />
             <Container>
-                {!isAuthenticated && (<Hero></Hero>)}
-                {isAuthenticated && (
-                    <>
-                        <ActionBar leftToolbarTemplate={leftToolbarTemplate}>
-                        </ActionBar>
-                        <OrderTable ordersLoading={ordersLoading}
-                            orders={orders}
-                            selectedOrders={selectedOrders}
-                            setSelectedOrders={setSelectedOrders}
-                            actionsTemplate={actionsTemplate}>
-                        </OrderTable>
-                    </>
-                )}
+                <>
+                    <ActionBar leftToolbarTemplate={leftToolbarTemplate}>
+                    </ActionBar>
+                    <OrderTable ordersLoading={ordersLoading}
+                        orders={orders}
+                        selectedOrders={selectedOrders}
+                        setSelectedOrders={setSelectedOrders}
+                        actionsTemplate={actionsTemplate}>
+                    </OrderTable>
+                </>
             </Container>
         </>
     );
