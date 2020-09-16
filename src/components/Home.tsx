@@ -64,7 +64,7 @@ const Home = () => {
                 .catch(console.error);
         }
         getUsers();
-    }, [user.name]);
+    }, [user.name, getAccessTokenSilently]);
 
     const [shippingCompany, setShippingCompany] = useState<string>("DHL");
     const [shippingStatus, setShippingStatus] = useState<string>("SHIPPING");
