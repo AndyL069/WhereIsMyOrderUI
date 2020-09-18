@@ -207,6 +207,9 @@ const Home = () => {
 
             case "UPS": orderLink = `http://wwwapps.ups.com/ietracking/tracking.cgi?tracknum=${orderTrackingNumber}&IATA=de&Lang=ger`;
                 break;
+
+            case "Amazon": orderLink = `${orderTrackingNumber}`;
+                break;
         }
 
         let newOrder: Order = {
@@ -241,6 +244,8 @@ const Home = () => {
                 break;
 
             case "UPS": orderLink = `http://wwwapps.ups.com/WebTracking/processInputRequest?sort_by=status&tracknums_displayed=1&TypeOfInquiryNumber=T&loc=de_DE&InquiryNumber1=${orderTrackingNumber}&track.x=0&track.y=0`;
+                break;
+            case "Amazon": orderLink = `${orderTrackingNumber}`;
                 break;
         }
 

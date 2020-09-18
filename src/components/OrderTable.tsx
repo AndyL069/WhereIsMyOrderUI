@@ -10,6 +10,7 @@ import hermesLogo from '../assets/hermeslogo.jpg';
 import glsLogo from '../assets/glslogo.jpg';
 import upsLogo from '../assets/upslogo.png';
 import dpdLogo from '../assets/dpdlogo.jpg';
+import amazonLogo from '../assets/amazon.png';
 import { Order } from "./Home";
 import MyLoader from "./MyLoader";
 
@@ -31,6 +32,8 @@ const shippingCompanyTemplate = (rowData: Order) => {
         case "GLS": companyLogo = glsLogo;
             break;
         case "UPS": companyLogo = upsLogo;
+            break;
+        case "Amazon": companyLogo = amazonLogo;
             break;
     }
     return (

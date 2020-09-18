@@ -44,6 +44,7 @@ function NewOrderModal(props: {
                         <option>DPD</option>
                         <option>GLS</option>
                         <option>UPS</option>
+                        <option>Amazon</option>
                     </Input>
                 </FormGroup>
                 <FormGroup>
