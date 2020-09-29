@@ -67,7 +67,7 @@ const Home = () => {
     }, [user.name, getAccessTokenSilently]);
 
     const [shippingCompany, setShippingCompany] = useState<string>("DHL");
-    const [shippingStatus, setShippingStatus] = useState<string>("SHIPPING");
+    const [shippingStatus, setShippingStatus] = useState<string>("OPEN");
     const [orderTitle, setOrderTitle] = useState<string>("");
     const [orderZipCode, setOrderZipCode] = useState<string>("");
     const [orderTrackingNumber, setOrderTrackingNumber] = useState<string>("");
