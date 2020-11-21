@@ -62,6 +62,8 @@ button.btn.btn-secondary {
     float: left;
     clear: left;
     border: 0 none;
+    font-size: large;
+    font-weight: bold;
  }
   .datatable-responsive .p-datatable.p-datatable-responsive .p-datatable-tbody > tr > td .p-column-title {
     padding: 0.4rem;
