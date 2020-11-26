@@ -41,6 +41,7 @@ function NewOrderModal(props: {
                         onChange={(event) => props.setShippingCompany(event.currentTarget.value)}>
                         <option>DHL</option>
                         <option>Hermes</option>
+                        <option>Hermes Spedition</option>
                         <option>DPD</option>
                         <option>GLS</option>
                         <option>UPS</option>

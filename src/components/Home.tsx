@@ -199,6 +199,9 @@ const Home = () => {
             case "Hermes": orderLink = `https://www.myhermes.de/empfangen/sendungsverfolgung/sendungsinformation/?wt_cc1=sendungsnummer&wt_mc=re_pa1#${orderTrackingNumber}`;
                 break;
 
+            case "Hermes Spedition": orderLink = `https://myhes.de/de/tracking/${orderTrackingNumber}`;
+                break;
+
             case "DPD": orderLink = `https://tracking.dpd.de/parcelstatus?query=${orderTrackingNumber}&locale=de_DE`;
                 break;
 
@@ -235,6 +238,9 @@ const Home = () => {
                 break;
 
             case "Hermes": orderLink = `https://www.myhermes.de/empfangen/sendungsverfolgung/sendungsinformation/?wt_cc1=sendungsnummer&wt_mc=re_pa1#${orderTrackingNumber}`;
+                break;
+
+            case "Hermes Spedition": orderLink = `https://myhes.de/de/tracking/${orderTrackingNumber}`;
                 break;
 
             case "DPD": orderLink = `https://tracking.dpd.de/parcelstatus?query=${orderTrackingNumber}&locale=de_DE`;
