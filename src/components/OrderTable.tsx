@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { Badge, Label } from "reactstrap";
 import dhlLogo from '../assets/dhllogo.png';
 import hermesLogo from '../assets/hermeslogo.jpg';
+import hermesSpedLogo from '../assets/hermes_spedition.png'
 import glsLogo from '../assets/glslogo.jpg';
 import upsLogo from '../assets/upslogo.png';
 import dpdLogo from '../assets/dpdlogo.jpg';
@@ -26,6 +27,8 @@ const shippingCompanyTemplate = (rowData: Order) => {
         case "DHL": companyLogo = dhlLogo;
             break;
         case "Hermes": companyLogo = hermesLogo;
+            break;
+        case "Hermes Spedition": companyLogo = hermesSpedLogo;
             break;
         case "DPD": companyLogo = dpdLogo;
             break;
