@@ -47,7 +47,7 @@ const shippingCompanyTemplate = (rowData: Order) => {
 const arrivalColumnTemplate = (rowData: Order) => {
     let arrivalDate = new Date(rowData.arrival);
     return (
-        <Label>{ arrivalDate.toLocaleDateString() === new Date().toLocaleDateString() ? <b>arrivalDate.toLocaleDateString()</b> : arrivalDate.toLocaleDateString()}</Label>
+        <Label>{ arrivalDate.toLocaleDateString() === new Date().toLocaleDateString() ? <b>{arrivalDate.toLocaleDateString()}</b> : arrivalDate.toLocaleDateString()}</Label>
     );
 }
 
