@@ -106,7 +106,7 @@ function OrderTable(props: {
             {props.ordersLoading ? (<><MyLoader /><MyLoader /><MyLoader /></>) : (
                 <DataTable
                     value={props.orders}
-                    sortField="arrival"
+                    sortField="arrivalDate"
                     sortOrder={-1}
                     selection={props.selectedOrders}
                     onSelectionChange={(e) => props.setSelectedOrders(e.value)}
