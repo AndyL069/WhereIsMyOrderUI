@@ -7,7 +7,9 @@ function UpdateOrderModal(props: {updateOrderModal: boolean,
     orderTitle: string,
     setOrderTitle: Function,
     orderArrivalDate: string,
+    orderArrivalTime: string,
     setOrderArrivalDate: Function,
+    setOrderArrivalTime: Function,
     shippingCompany: string,
     setShippingCompany: Function,
     orderZipCode: string,
@@ -26,8 +28,8 @@ function UpdateOrderModal(props: {updateOrderModal: boolean,
             <Input name="orderTitle" id="orderTitle" value={props.orderTitle} onChange={(event) => props.setOrderTitle(event.currentTarget.value)}/>
         </FormGroup>
         <FormGroup>
-            <Label for="orderArrival">Arrival</Label>
-            <Input type="date" name="orderArrival" id="orderArrival" value={props.orderArrivalDate} onChange={(event) => props.setOrderArrivalDate(event.currentTarget.value)} />
+            <Label for="orderArrivalDate">Arrival</Label>
+            <Input type="date" name="orderArrivalDate" id="orderArrivalDate" value={props.orderArrivalDate} onChange={(event) => props.setOrderArrivalDate(event.currentTarget.value)} />
         </FormGroup>
         <FormGroup>
             <Label for="orderCompany">Shipping Company</Label>
@@ -52,6 +54,10 @@ function UpdateOrderModal(props: {updateOrderModal: boolean,
         <FormGroup>
             <Label for="trackingNumber">Tracking number</Label>
             <Input name="trackingNumber" id="trackingNumber" value={props.orderTrackingNumber} onChange={(event) => props.setOrderTrackingNumber(event.currentTarget.value)} />
+        </FormGroup>
+        <FormGroup>
+            <Label for="orderArrivalTime">Arrival</Label>
+            <Input type="date" name="orderArrivalTime" id="orderArrivalTime" value={props.orderArrivalDate} onChange={(event) => props.setOrderArrivalTime(event.currentTarget.value)} />
         </FormGroup>
         <FormGroup>
             <Label for="status">Status</Label>

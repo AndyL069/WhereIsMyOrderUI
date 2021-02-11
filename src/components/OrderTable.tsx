@@ -44,10 +44,17 @@ const shippingCompanyTemplate = (rowData: Order) => {
     );
 }
 
-const arrivalColumnTemplate = (rowData: Order) => {
-    let arrivalDate = new Date(rowData.arrival);
+const arrivalDateColumnTemplate = (rowData: Order) => {
+    let arrivalDate = new Date(rowData.arrivalDate);
     return (
         <Label>{ arrivalDate.toLocaleDateString() === new Date().toLocaleDateString() ? <b>{arrivalDate.toLocaleDateString()}</b> : arrivalDate.toLocaleDateString()}</Label>
+    );
+}
+
+const arrivalTimeColumnTemplate = (rowData: Order) => {
+    let arrivalTime = new Date(rowData.arrivalTime);
+    return (
+        <Label>{ arrivalTime.toLocaleTimeString() === new Date().toLocaleTimeString() ? <b>{arrivalTime.toLocaleTimeString()}</b> : arrivalTime.toLocaleTimeString()}</Label>
     );
 }
 
@@ -112,10 +119,11 @@ function OrderTable(props: {
                     <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
                     <Column field="title" header="Title" sortable body={descriptionColumnTemplate}></Column>
                     <Column field="company" header="Company" sortable body={shippingCompanyTemplate}></Column>
-                    <Column field="arrival" header="Arrival" sortable body={arrivalColumnTemplate}></Column>
+                    <Column field="arrivalDate" header="ArrivalDate" sortable body={arrivalDateColumnTemplate}></Column>
                     <Column field="status" header="Status" body={statusBodyTemplate} sortable></Column>
                     <Column field="link" header="Tracking Link" body={trackingLinkTemplate} ></Column>
                     <Column field="edit" body={props.actionsTemplate}></Column>
+                    <Column field="arrivalTime" header="ArrivalTime" sortable body={arrivalTimeColumnTemplate}></Column>
                 </DataTable>
             )
             }

@@ -19,7 +19,8 @@ export interface Order {
     id: number,
     company: string,
     title: string,
-    arrival: Date,
+    arrivalDate: Date,
+    arrivalTime: Date,
     link: string,
     status: string,
     userId: string,
@@ -72,6 +73,7 @@ const Home = () => {
     const [orderZipCode, setOrderZipCode] = useState<string>("");
     const [orderTrackingNumber, setOrderTrackingNumber] = useState<string>("");
     const [orderArrivalDate, setOrderArrivalDate] = useState<string>("");
+    const [orderArrivalTime, setOrderArrivalTime] = useState<string>("");
     const [orderId, setOrderId] = useState<number>(0);
 
     const getOrders = async () => {
@@ -92,6 +94,7 @@ const Home = () => {
         setOrderZipCode("");
         setOrderTrackingNumber("");
         setOrderArrivalDate("");
+        setOrderArrivalTime("");
         setOrderId(0);
     };
 
@@ -220,7 +223,8 @@ const Home = () => {
             company: shippingCompany,
             title: orderTitle,
             status: shippingStatus,
-            arrival: new Date(orderArrivalDate),
+            arrivalDate: new Date(orderArrivalDate),
+            arrivalTime: new Date(orderArrivalTime),
             link: orderLink,
             userId: user.name,
             zipCode: orderZipCode,
@@ -260,7 +264,8 @@ const Home = () => {
             company: shippingCompany,
             title: orderTitle,
             status: shippingStatus,
-            arrival: new Date(orderArrivalDate),
+            arrivalDate: new Date(orderArrivalDate),
+            arrivalTime: new Date(orderArrivalTime),
             link: orderLink,
             userId: user.name,
             zipCode: orderZipCode,
@@ -278,8 +283,10 @@ const Home = () => {
         setOrderZipCode(rowData.zipCode);
         setOrderTrackingNumber(rowData.trackingNumber);
         setOrderId(rowData.id);
-        let dateString = moment(new Date(rowData.arrival)).format('YYYY-MM-DD');
+        let dateString = moment(new Date(rowData.arrivalDate)).format('YYYY-MM-DD');
         setOrderArrivalDate(dateString);
+        let timeString = moment(new Date(rowData.arrivalTime)).format('HH:MI');
+        setOrderArrivalTime(timeString);
         updateOrderToggle();
     };
 
@@ -324,6 +331,8 @@ const Home = () => {
                 setOrderTitle={setOrderTitle}
                 orderArrivalDate={orderArrivalDate}
                 setOrderArrivalDate={setOrderArrivalDate}
+                orderArrivalTime={orderArrivalTime}
+                setOrderArrivalTime={setOrderArrivalTime}
                 shippingCompany={shippingCompany}
                 setShippingCompany={setShippingCompany}
                 orderZipCode={orderZipCode}
