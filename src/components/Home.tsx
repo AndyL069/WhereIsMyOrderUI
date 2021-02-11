@@ -285,8 +285,8 @@ const Home = () => {
         setOrderId(rowData.id);
         let dateString = moment(new Date(rowData.arrivalDate)).format('YYYY-MM-DD');
         setOrderArrivalDate(dateString);
-        let timeString = moment(new Date(rowData.arrivalTime)).format('HH:mm');
-        setOrderArrivalTime(timeString);
+        let timeString = moment(new Date(rowData.arrivalTime)).format('HH:mm:ss');
+        setOrderArrivalTime(dateString + " " + timeString);
         updateOrderToggle();
     };
 
