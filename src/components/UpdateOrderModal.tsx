@@ -57,7 +57,7 @@ function UpdateOrderModal(props: {updateOrderModal: boolean,
         </FormGroup>
         <FormGroup>
             <Label for="orderArrivalTime">Arrival Time</Label>
-            <Input type="time" name="orderArrivalTime" id="orderArrivalTime" value={props.orderArrivalDate} onChange={(event) => props.setOrderArrivalTime(event.currentTarget.value)} />
+            <Input type="time" name="orderArrivalTime" id="orderArrivalTime" value={props.orderArrivalTime} onChange={(event) => props.setOrderArrivalTime(event.currentTarget.value)} />
         </FormGroup>
         <FormGroup>
             <Label for="status">Status</Label>
