@@ -54,7 +54,7 @@ const arrivalDateColumnTemplate = (rowData: Order) => {
 const arrivalTimeColumnTemplate = (rowData: Order) => {
     let arrivalTime = new Date(rowData.arrivalTime);
     return (
-        <Label>{ arrivalTime.toLocaleTimeString() === new Date().toLocaleTimeString() ? <b>{arrivalTime.toLocaleTimeString()}</b> : arrivalTime.toLocaleTimeString()}</Label>
+        <Label>{ arrivalTime.toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'}) === new Date().toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'}) ? <b>{arrivalTime.toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'})}</b> : arrivalTime.toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'})}</Label>
     );
 }
 
