@@ -5,7 +5,6 @@ import { Toast } from 'primereact/toast';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import moment from 'moment';
 import UpdateOrderModal from './UpdateOrderModal';
 import DeleteSelectedOrdersModal from './DeleteSelectedOrdersModal';
 import DeleteOrderModal from './DeleteOrderModal';
