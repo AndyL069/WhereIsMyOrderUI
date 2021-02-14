@@ -286,7 +286,7 @@ const Home = () => {
         let dateString = moment(new Date(rowData.arrivalDate)).format('YYYY-MM-DD');
         setOrderArrivalDate(dateString);
         let timeString = new Date(rowData.arrivalTime).toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'});
-        setOrderArrivalTime(dateString + " " + timeString);
+        setOrderArrivalTime(timeString);
         updateOrderToggle();
     };
 
