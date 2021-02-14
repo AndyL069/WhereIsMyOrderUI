@@ -265,7 +265,7 @@ const Home = () => {
             title: orderTitle,
             status: shippingStatus,
             arrivalDate: new Date(orderArrivalDate),
-            arrivalTime: new Date(orderArrivalTime),
+            arrivalTime: new Date(orderArrivalDate + " " + orderArrivalTime),
             link: orderLink,
             userId: user.name,
             zipCode: orderZipCode,
