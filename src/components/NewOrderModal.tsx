@@ -8,7 +8,7 @@ function NewOrderModal(props: {
     handleFormSubmit: ((event: React.FormEvent<HTMLFormElement>) => void) | undefined,
     orderTitle: string,
     setOrderTitle: Function,
-    orderArrivalDate: string,
+    orderArrivalDate: Date,
     setOrderArrivalDate: Function,
     shippingCompany: string,
     setShippingCompany: Function,
@@ -29,7 +29,7 @@ function NewOrderModal(props: {
                 </FormGroup>
                 <FormGroup>
                     <Label for="orderArrival">Arrival</Label>
-                    <Input type="date" name="orderArrival" id="orderArrival" value={props.orderArrivalDate} onChange={(event) => props.setOrderArrivalDate(event.currentTarget.value)} />
+                    <Input type="date" name="orderArrival" id="orderArrival" value={props.orderArrivalDate.toLocaleDateString()} onChange={(event) => props.setOrderArrivalDate(event.currentTarget.value)} />
                 </FormGroup>
                 <FormGroup>
                     <Label for="orderCompany">Shipping Company</Label>

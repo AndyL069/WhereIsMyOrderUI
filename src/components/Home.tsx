@@ -72,8 +72,8 @@ const Home = () => {
     const [orderTitle, setOrderTitle] = useState<string>("");
     const [orderZipCode, setOrderZipCode] = useState<string>("");
     const [orderTrackingNumber, setOrderTrackingNumber] = useState<string>("");
-    const [orderArrivalDate, setOrderArrivalDate] = useState<string>("");
-    const [orderArrivalTime, setOrderArrivalTime] = useState<string>("");
+    const [orderArrivalDate, setOrderArrivalDate] = useState<Date>(new Date());
+    const [orderArrivalTime, setOrderArrivalTime] = useState<Date>(new Date());
     const [orderId, setOrderId] = useState<number>(0);
 
     const getOrders = async () => {
@@ -93,8 +93,8 @@ const Home = () => {
         setOrderTitle("");
         setOrderZipCode("");
         setOrderTrackingNumber("");
-        setOrderArrivalDate("");
-        setOrderArrivalTime("");
+        setOrderArrivalDate(new Date());
+        setOrderArrivalTime(new Date());
         setOrderId(0);
     };
 
@@ -286,10 +286,8 @@ const Home = () => {
         setOrderZipCode(rowData.zipCode);
         setOrderTrackingNumber(rowData.trackingNumber);
         setOrderId(rowData.id);
-        let dateString = moment(new Date(rowData.arrivalDate)).format('YYYY-MM-DD');
-        setOrderArrivalDate(dateString);
-        let timeString = new Date(rowData.arrivalTime).toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'});
-        setOrderArrivalTime(timeString);
+        setOrderArrivalDate(rowData.arrivalDate);
+        setOrderArrivalTime(rowData.arrivalTime);
         updateOrderToggle();
     };
 

@@ -6,8 +6,8 @@ function UpdateOrderModal(props: {updateOrderModal: boolean,
     updateOrderToggle: ((event: React.MouseEvent<any, MouseEvent>) => void) | undefined,
     orderTitle: string,
     setOrderTitle: Function,
-    orderArrivalDate: string,
-    orderArrivalTime: string,
+    orderArrivalDate: Date,
+    orderArrivalTime: Date,
     setOrderArrivalDate: Function,
     setOrderArrivalTime: Function,
     shippingCompany: string,
@@ -29,7 +29,7 @@ function UpdateOrderModal(props: {updateOrderModal: boolean,
         </FormGroup>
         <FormGroup>
             <Label for="orderArrivalDate">Arrival Date</Label>
-            <Input type="date" name="orderArrivalDate" id="orderArrivalDate" value={props.orderArrivalDate} onChange={(event) => props.setOrderArrivalDate(event.currentTarget.value)} />
+            <Input type="date" name="orderArrivalDate" id="orderArrivalDate" value={props.orderArrivalDate.toLocaleDateString()} onChange={(event) => props.setOrderArrivalDate(event.currentTarget.value)} />
         </FormGroup>
         <FormGroup>
             <Label for="orderCompany">Shipping Company</Label>
@@ -57,7 +57,7 @@ function UpdateOrderModal(props: {updateOrderModal: boolean,
         </FormGroup>
         <FormGroup>
             <Label for="orderArrivalTime">Arrival Time</Label>
-            <Input type="time" name="orderArrivalTime" id="orderArrivalTime" value={props.orderArrivalTime} onChange={(event) => props.setOrderArrivalTime(event.currentTarget.value)} />
+            <Input type="time" name="orderArrivalTime" id="orderArrivalTime" value={props.orderArrivalTime.toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'})} onChange={(event) => props.setOrderArrivalTime(event.currentTarget.value)} />
         </FormGroup>
         <FormGroup>
             <Label for="status">Status</Label>
