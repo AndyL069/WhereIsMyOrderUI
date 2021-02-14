@@ -259,6 +259,8 @@ const Home = () => {
                 break;
         }
 
+        console.log(orderArrivalDate);
+        console.log(orderArrivalTime);
         let updatedOrder: Order = {
             id: orderId,
             company: shippingCompany,
@@ -272,6 +274,7 @@ const Home = () => {
             trackingNumber: orderTrackingNumber
         };
 
+        console.log(updatedOrder);
         await updateOrderRequest(updatedOrder);
         await getOrders();
     }
