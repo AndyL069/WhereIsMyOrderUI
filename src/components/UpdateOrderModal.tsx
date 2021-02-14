@@ -29,7 +29,7 @@ function UpdateOrderModal(props: {updateOrderModal: boolean,
         </FormGroup>
         <FormGroup>
             <Label for="orderArrivalDate">Arrival Date</Label>
-            <Input type="date" name="orderArrivalDate" id="orderArrivalDate" value={new Date(props.orderArrivalDate).toLocaleDateString("yyyy-MM-dd")} onChange={(event) => props.setOrderArrivalDate(event.currentTarget.value)} />
+            <Input type="date" name="orderArrivalDate" id="orderArrivalDate" value={new Date(props.orderArrivalDate).toLocaleDateString("YYYY-MM-dd")} onChange={(event) => props.setOrderArrivalDate(event.currentTarget.value)} />
         </FormGroup>
         <FormGroup>
             <Label for="orderCompany">Shipping Company</Label>
